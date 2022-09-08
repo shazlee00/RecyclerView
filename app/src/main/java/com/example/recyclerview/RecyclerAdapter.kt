@@ -12,11 +12,11 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.Room
 import com.bumptech.glide.Glide
 
 
 class RecyclerAdapter(var items:List<Articles?>?): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-
 
 
     class ViewHolder(view:View): RecyclerView.ViewHolder(view)
@@ -31,8 +31,8 @@ class RecyclerAdapter(var items:List<Articles?>?): RecyclerView.Adapter<Recycler
              itemDetail=view.findViewById(R.id.item_detail )
              favCheckBox=view.findViewById(R.id.checkBox)
 
-
          }
+
 
     }
 
@@ -40,6 +40,7 @@ class RecyclerAdapter(var items:List<Articles?>?): RecyclerView.Adapter<Recycler
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
 
         val view=LayoutInflater.from(viewGroup.context).inflate(R.layout.card_layout, viewGroup, false)
+
 
         return ViewHolder(view)
     }
@@ -65,7 +66,7 @@ class RecyclerAdapter(var items:List<Articles?>?): RecyclerView.Adapter<Recycler
 
             if (holder.favCheckBox.isChecked)
             {
-
+                Toast.makeText(holder.favCheckBox.context,holder.itemText?.text,Toast.LENGTH_LONG).show()
             }
 
         }
