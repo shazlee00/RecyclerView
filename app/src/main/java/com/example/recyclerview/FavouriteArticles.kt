@@ -20,6 +20,9 @@ interface ArticleDao {
 
     @Insert
     fun insert(FavouriteArticle: FavouriteArticles)
+
+    @Delete
+    fun delete(article:FavouriteArticles)
 }
 
 @Database(entities = [FavouriteArticles::class], version = 1)
