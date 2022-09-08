@@ -29,14 +29,13 @@ class Home : Fragment(R.layout.fragment_home) {
         adapter=RecyclerAdapter(listOf())
         recyclerView.adapter = adapter
 
-
         getEverything()
 
     }
 
     private fun getEverything() {
 
-        service.everything("Tech","29070b6383184ff581b302670bbc02b4").enqueue(
+        service.everything("Apple","29070b6383184ff581b302670bbc02b4").enqueue(
            object:Callback<Everything>{
                override fun onResponse(call: Call<Everything>, response: Response<Everything>) {
 
