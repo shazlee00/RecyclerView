@@ -1,40 +1,34 @@
 package com.example.recyclerview
 
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.maximeroussy.invitrode.WordGenerator
-import kotlin.random.Random
-
-class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-
-    var generator: WordGenerator = WordGenerator()
 
 
-    private var detail= arrayOf(generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)))
-    private var titles= arrayOf(generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)),generator.newWord(Random.nextInt(0, 30)))
-    private var imgSrc=arrayOf("https://picsum.photos/200/200","https://picsum.photos/200/200","https://picsum.photos/200/200","https://picsum.photos/200/200","https://picsum.photos/200/200",
-        "https://picsum.photos/200/100",
-        "https://picsum.photos/200",
-        "https://picsum.photos/100/200",
-        "https://picsum.photos/100/100",
-        "https://picsum.photos/200/200",
-        "https://picsum.photos/200/200"
-    )
+class RecyclerAdapter(var items:List<Articles?>?): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+
+
 
     class ViewHolder(view:View): RecyclerView.ViewHolder(view)
     {
          var itemImage: ImageView
          var itemText: TextView
          var itemDetail:TextView
+         var favCheckBox: CheckBox
          init {
              itemImage=view.findViewById(R.id.item_image )
              itemText=view.findViewById(R.id.item_text )
              itemDetail=view.findViewById(R.id.item_detail )
+             favCheckBox=view.findViewById(R.id.checkBox)
 
 
          }
@@ -51,16 +45,29 @@ class RecyclerAdapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
 
-        holder.itemText.text=titles[position]
-        holder.itemDetail.text=detail[position]
-        Glide.with(holder.itemView)
-            .load(imgSrc[position])
-            .into(holder.itemImage!!)
+        val articles=items?.get(position)
+
+        Glide.with(holder.itemView).load(articles?.urlToImage).into(holder.itemImage)
+
+        holder.itemText?.text=articles?.title
+
+        holder.itemDetail?.text=articles?.description
+
+        holder.itemText.setOnClickListener{
+            val context=holder.itemText.context
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(articles?.url)
+            context.startActivity(intent)
+        }
+
+        holder.favCheckBox.setOnClickListener{
+            
+        }
 
 
     }
 
     override fun getItemCount(): Int {
-       return titles.size
+       return items?.size?:0
     }
 }
