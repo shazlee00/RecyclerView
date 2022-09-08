@@ -1,6 +1,5 @@
 package com.example.recyclerview
 
-import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.LayoutInflater
@@ -10,42 +9,34 @@ import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.Room
 import com.bumptech.glide.Glide
 
-
-class RecyclerAdapter(var items:List<Articles?>?): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
-    
-
+class FavouriteRecyclerAdapter(var items:List<FavouriteArticles?>?):RecyclerView.Adapter<FavouriteRecyclerAdapter.ViewHolder>()
+{
     class ViewHolder(view:View): RecyclerView.ViewHolder(view)
     {
-         var itemImage: ImageView
-         var itemText: TextView
-         var itemDetail:TextView
-         var favCheckBox: CheckBox
-         init {
-             itemImage=view.findViewById(R.id.item_image )
-             itemText=view.findViewById(R.id.item_text )
-             itemDetail=view.findViewById(R.id.item_detail )
-             favCheckBox=view.findViewById(R.id.checkBox)
+        var itemImage: ImageView
+        var itemText: TextView
+        var itemDetail:TextView
 
-         }
+        init {
+            itemImage=view.findViewById(R.id.item_image )
+            itemText=view.findViewById(R.id.item_text )
+            itemDetail=view.findViewById(R.id.item_detail )
+        }
 
 
     }
-
-
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): FavouriteRecyclerAdapter.ViewHolder {
 
         val view=LayoutInflater.from(viewGroup.context).inflate(R.layout.card_layout, viewGroup, false)
 
 
-        return ViewHolder(view)
+        return FavouriteRecyclerAdapter.ViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: FavouriteRecyclerAdapter.ViewHolder, position: Int) {
 
         val articles = items?.get(position)
 
@@ -62,18 +53,15 @@ class RecyclerAdapter(var items:List<Articles?>?): RecyclerView.Adapter<Recycler
             context.startActivity(intent)
         }
 
-        holder.favCheckBox.setOnClickListener {
-
-            if (holder.favCheckBox.isChecked)
-            {
-                Toast.makeText(holder.favCheckBox.context,holder.itemText?.text,Toast.LENGTH_LONG).show()
-            }
 
         }
 
+    override fun getItemCount(): Int {
+        return items?.size?:0
     }
 
-    override fun getItemCount(): Int {
-       return items?.size?:0
-    }
+}
+
+
+
 }
